@@ -1,0 +1,28 @@
+version: 1
+config:
+- type: physical
+  name: ens3
+  #mac_address: aa:11:22:33:44:55
+- type: vlan
+  name: ens3.900
+  vlan_link: ens3
+  vlan_id: 900
+  mtu: 1500
+  subnets:
+  - type: static
+    address: 9.9.100.4
+    netmask: 255.255.255.0
+    routes:
+    - gateway: 9.9.100.101
+      netmask: 0.0.0.0
+      network: 0.0.0.0
+- type: vlan
+  name: ens3.911
+  vlan_link: ens3
+  vlan_id: 911
+  #mtu: 9000
+  subnets:
+  - type: static
+    address: 9.9.110.4
+    netmask: 255.255.255.0
+    

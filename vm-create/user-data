@@ -1,0 +1,34 @@
+#cloud-config
+
+package_upgrade: false
+
+final_message: "System boot (via cloud-init) is COMPLETE, after $UPTIME seconds. Finished at $TIMESTAMP"
+
+users:
+  - name: contrail
+    gecos: contrail
+    lock-passwd: false
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCyr0wb4eySNYJRgSPGFKUArqm92xgxL1hnDW0PyZiU3A5GLxVt70Z22KjNXsttmvc4Lj/Zvvltnto28ohRbqWsy7UkLE4mbQUoGrV3qYD+CpIyFxXetTiiqqi0T0IWiquEWL5d7HkYnencweLD+jamD218tk3iKhSqVDmfriFC/kvmN3ldAXLYTSmIZh51L6n4WXjLmAnNnGtCwVoPsike3F3YAcihmjGD0DzIaMfqlUJnNaettcVm2QbeC0Yn8rh0EF5blv1C6D8758LXWMO59t5JBd/b0VzaqFKBly+sRkWKCVPNg9ZgHzQDaGwDHi+HhtX6GqX2FNWMcooYwT4F
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC/XZvHDxPcMzbD9wWJB5lZO5KyKXoSmykmvY0AA5dY5J9rpzDvhVgxiZfWvwcVzb55GgJ17vBZqAsCkEl8kNMPOrqOECAeK+L6Vdui3CBKOe+lJAjdNNQ/EHMyrOBG05Bif9uzDrsx1li2Y7R3pyloTKN3sxfb1OeI6xU4ZaS8u9w8O23XNBCdel+1bzSIXlhR7ysEGraqtF8ryatHP8kz3l3k67VW4mmgqguNHovmzsbeu0mLUSLsrerFBQfV9ioinQ8AqtF5x9m6WJrWFOTHi8Er2HoC9tySuxsL5J55B4fmovztLKYCBXiQu4tvOiDljeucXtXI5eBLSeyOzuK7 ckim@ckim-mbp
+chpasswd:
+  list: |
+    root:c0ntrail123
+    contrail:c0ntrail123
+  expire: False
+
+disable_root: false
+ssh_pwauth: True
+ssh_authorized_keys:
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCyr0wb4eySNYJRgSPGFKUArqm92xgxL1hnDW0PyZiU3A5GLxVt70Z22KjNXsttmvc4Lj/Zvvltnto28ohRbqWsy7UkLE4mbQUoGrV3qYD+CpIyFxXetTiiqqi0T0IWiquEWL5d7HkYnencweLD+jamD218tk3iKhSqVDmfriFC/kvmN3ldAXLYTSmIZh51L6n4WXjLmAnNnGtCwVoPsike3F3YAcihmjGD0DzIaMfqlUJnNaettcVm2QbeC0Yn8rh0EF5blv1C6D8758LXWMO59t5JBd/b0VzaqFKBly+sRkWKCVPNg9ZgHzQDaGwDHi+HhtX6GqX2FNWMcooYwT4F
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC/XZvHDxPcMzbD9wWJB5lZO5KyKXoSmykmvY0AA5dY5J9rpzDvhVgxiZfWvwcVzb55GgJ17vBZqAsCkEl8kNMPOrqOECAeK+L6Vdui3CBKOe+lJAjdNNQ/EHMyrOBG05Bif9uzDrsx1li2Y7R3pyloTKN3sxfb1OeI6xU4ZaS8u9w8O23XNBCdel+1bzSIXlhR7ysEGraqtF8ryatHP8kz3l3k67VW4mmgqguNHovmzsbeu0mLUSLsrerFBQfV9ioinQ8AqtF5x9m6WJrWFOTHi8Er2HoC9tySuxsL5J55B4fmovztLKYCBXiQu4tvOiDljeucXtXI5eBLSeyOzuK7 ckim@ckim-mbp
+
+fqdn: vn-d
+runcmd:
+  - yum -y remove cloud-init
+  - sed -i 's/[#?]PasswordAuthentication .*/PasswordAuthentication yes/' /etc/ssh/sshd_config
+  - sed -i 's/[#?]PermitRootLogin .*/PermitRootLogin yes/' /etc/ssh/sshd_config
+  - systemctl restart sshd
+  - echo options kvm_intel nested=1 enable_apicv=0 > /etc/modprobe.d/kvm.conf
+  

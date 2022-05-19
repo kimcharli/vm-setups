@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-inventory_hostname=contrail
+inventory_hostname=vn-d
 pool_name=cem-pool
 image_src=$HOME/images/CentOS-7-x86_64-GenericCloud-2009.qcow2
 

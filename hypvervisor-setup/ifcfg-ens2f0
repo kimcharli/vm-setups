@@ -1,0 +1,8 @@
+TYPE=Ethernet
+PROXY_METHOD=none
+BOOTPROTO=none
+NAME=ens2f0
+DEVICE=ens2f0
+ONBOOT=yes
+#MASTER=bond1
+BRIDGE=brens2f0

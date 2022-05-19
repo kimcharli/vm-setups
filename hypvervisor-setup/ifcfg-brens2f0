@@ -1,0 +1,5 @@
+TYPE=Bridge
+BOOTPROTO=none
+NAME=brens2f0
+DEVICE=brens2f0
+ONBOOT=yes
