@@ -55,6 +55,8 @@ create_vm () {
 case "$1" in
 	"destroy")
 		destroy_vm "@"; exit;;
+    "create_pool")
+        create_pool "@"; exit;;
 	*)
 		create_vm ; exit ;;
 esac
