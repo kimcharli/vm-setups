@@ -22,6 +22,13 @@ create_pool () {
 	virsh pool-autostart cem-pool
 }
 
+allow_bridge () {
+    grep "allow all" /etc/qemu-kvm/bridge.conf
+    if [[ $? -ne 0 ]]
+        else cat "allow all" | sudo tee -a /etc/qemu-kvm/bridge.conf
+    fi    
+}
+
 create_vm () {
     rm -f $inventory_hostname.iso
     genisoimage -input-charset  utf-8 -o $inventory_hostname.iso -volid cidata -joliet -rock user-data meta-data network-config
@@ -57,6 +64,8 @@ case "$1" in
 		destroy_vm "@"; exit;;
     "create_pool")
         create_pool "@"; exit;;
+    "allow_bridge")
+        allow_bridge "@"; exit;;
 	*)
 		create_vm ; exit ;;
 esac
